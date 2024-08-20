@@ -28,22 +28,19 @@
                 <li class='sidebar-title'>Main Menu</li>
                  
             
-                
                 <li class="sidebar-item <?= ($currentMenu == 'home') ? 'active' : '' ?>">
 
                    <a href="<?= base_url("home")?>" class='sidebar-link'>
                         <i data-feather="home" width="20"></i> 
                         <span>Dashboard</span>
                     </a>
-
-                    
                 </li>
                 
                 <?php
 if(session()->get('level')==1)
 {
 ?>
-                
+
                  <li class="sidebar-item <?= ($currentMenu == 'produk' || $currentMenu == 'tambahproduk'|| $currentMenu == 'editproduk') ? 'active' : '' ?>">
 
                     <a href="<?= base_url("home/produk")?>" class='sidebar-link'>
@@ -52,11 +49,10 @@ if(session()->get('level')==1)
                     </a>
                      </li> 
 
-                    <?php
+                     <?php
     }else{
 
-    }?>   
-                    
+    }?>  
                
 
                 <?php
@@ -192,13 +188,19 @@ if(session()->get('level')==1)
 
     }?> 
 
- <?php
+ 
+    <li class='sidebar-title'>Pages</li>
+        <?php
 if(session()->get('level')==1)
 {
-?>
-    <li class='sidebar-title'>Pages</li>
-                
-           
+?>        
+    <li class="sidebar-item <?= ($currentMenu == 'level' || $currentMenu == 'akses') ? 'active' : '' ?>">
+   
+   <a href="<?= base_url("home/level")?>" class='sidebar-link'>
+       <i data-feather="archive" width="20"></i> 
+       <span>Level</span>
+   </a>
+   </li>
                 
                  <li class="sidebar-item <?= ($currentMenu == 'log' ) ? 'active' : '' ?>">
 
@@ -227,9 +229,7 @@ if(session()->get('level')==1)
                             <a href="<?= base_url("home/reuser")?>">Restore User</a>
                         </li>
 
-                      <!--   <li class="<?= ($currentMenu == 'rekeranjang') ? 'active' : '' ?>">
-                            <a href="<?= base_url("home/rekeranjang")?>">Restore Keranjang</a>
-                        </li> -->
+                      
                          
                           <li class="<?= ($currentMenu == 'repesanan') ? 'active' : '' ?>">
                             <a href="<?= base_url("home/repesanan")?>">Restore Pesanan</a>
@@ -238,7 +238,7 @@ if(session()->get('level')==1)
                     </ul>
 
                     
-                </li>
+               
                 
                
                
@@ -336,6 +336,7 @@ if(session()->get('level')==1)
                 </div>
             </nav>
             
+
 
 <html lang="en">
 <head>

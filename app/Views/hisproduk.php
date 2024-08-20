@@ -92,7 +92,7 @@
         // Periksa apakah isdelete == 0
         if ($gou->isdelete == 0) {
             // Konversi ID kategori ke nama kategori
-            switch($gou->old_id_kategori) {
+            switch($gou->id_kategori) {
                 case 1:
                     $kategori = 'Makanan';
                     break;
@@ -109,17 +109,17 @@
     ?>
     <tr>
         <td><?= $no++ ?></td>
-        <td><?=$gou->old_nama_produk?></td> 
+        <td><?=$gou->nama_produk?></td> 
         <td>
             <img src="<?php echo base_url('images/'.$gou->foto)?>" style="width: 120px; height: auto;" onclick="openPopup('<?php echo base_url('images/'.$gou->old_foto)?>')">
         </td>
-        <td><?= number_format($gou->old_harga, 0, ',', '.') ?></td>
-        <td><?=$gou->old_deskripsi?></td>
-        <td><?=$gou->old_stok?></td>
+        <td><?= number_format($gou->harga, 0, ',', '.') ?></td>
+        <td><?=$gou->deskripsi?></td>
+        <td><?=$gou->stok?></td>
         <td><?=$kategori?></td>
         <td>
             <a href="<?= base_url('home/aksihisproduk/'.$gou->id_produk)?>">
-                <button class="btn btn-info btn-sm round">Restore</button>
+                <button class="btn btn-info btn-sm ">Restore</button>
             </a>
         </td>
     </tr>

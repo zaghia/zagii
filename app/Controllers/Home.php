@@ -20,11 +20,15 @@ class Home extends BaseController
 
     public function index() 
     {
-    
+        if (session()->get('id') > 0) {
+            helper('permission'); // Pastikan helper dimuat
+
+            // Cek apakah user memiliki hak akses untuk 'pemesanan'
+            if (has_permission('dashboard')) {
 
         $model= new M_kedaikopi();
 
-        $id_user = session()->get('id_user'); // Ambil ID user dari session
+        $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman dashboard'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -39,7 +43,14 @@ class Home extends BaseController
         echo view('dashboard',$data);
         echo view('footer');
     
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
+}
+}
     public function login()
         {
             $model= new M_kedaikopi();
@@ -56,20 +67,21 @@ class Home extends BaseController
 
 } 
 
-// public function error()
-// {
-//         $model = new M_kedaikopi();
-//         $where=array(
-//           'id_toko'=> 1
-//         );
-//         $data['setting'] = $model->getWhere('toko',$where);
-//         echo view('header');
-//         echo view ('menu', $data);
-//         echo view('error');
-//         echo view ('footer');
+public function error()
+{
+        $model = new M_kedaikopi();
+        helper('permission');
+        $where=array(
+          'id_toko'=> 1
+        );
+        $data['setting'] = $model->getWhere('toko',$where);
+        echo view('header');
+        echo view ('menu', $data);
+        echo view('error');
+        echo view ('footer');
        
         
-// }
+}
 
 public function aksireset()
     {
@@ -101,9 +113,13 @@ public function aksireset()
 public function logonama()
 {
     // Memeriksa level akses user
-    if (session()->get('level') == 1 || session()->get('level') == 0) {
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('setting')) {
         $model = new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman setting'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -127,13 +143,14 @@ public function logonama()
         echo view('menu', $data);
         echo view('logonama', $data);
         echo view('footer', $data);
-    //  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
 }
-
+}
 public function aksietoko()
 {
     $model = new M_kedaikopi();
@@ -177,31 +194,6 @@ public function logout()
 
 }
 
-// 
-// public function aksilogin()
-//         {
-        
-//         $u=$this->request->getPost('nama');
-//         $p=$this->request->getPost('password');
- 
-//         $model = new M_kedaikopi();
-
-//         $where=array(
-//           'nama_user'=> $u,
-//           'password'=> md5($p)
-//         );
-//         $cek = $model->getWhere('user',$where);
-//         if ($cek>0){
-
-//             session()->set('id',$cek->id_user);
-//             session()->set('nama',$cek->nama_user);
-//             session()->set('level',$cek->level);
-//             return redirect()->to('Home');
-//         }else{
-//             return redirect()->to('Home/login');
-//         }
-        
-// }
 
 
 public function aksilogin()
@@ -295,7 +287,7 @@ public function produk()
         // if (session()->get('level')>0){
         $model= new M_kedaikopi();
 
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman produk'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -324,9 +316,14 @@ public function produk()
 
     public function tambahproduk()
     {
-       if(session()->get('level')==1 || session()->get('level')==0 ){
+        if (session()->get('id') > 0) {
+            helper('permission'); // Pastikan helper dimuat
+
+            // Cek apakah user memiliki hak akses untuk 'pemesanan'
+            if (has_permission('produk')) {
+        // if (session()->get('level')>0){
         $model= new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman tambah produk'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -342,18 +339,26 @@ public function produk()
         echo view ('menu',$data);
         echo view('tambahproduk',$data);
         echo view ('footer');
-      //  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }    
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
+}
+}
+
 
     public function editproduk($id)
     {
-       if(session()->get('level')==1 || session()->get('level')==0 ){
+        if (session()->get('id') > 0) {
+            helper('permission'); // Pastikan helper dimuat
+
+            // Cek apakah user memiliki hak akses untuk 'pemesanan'
+            if (has_permission('produk')) {
+        // if (session()->get('level')>0){
         $model= new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman detail produk'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -374,12 +379,15 @@ public function produk()
         echo view ('menu',$data);
         echo view('editproduk',$data);
         echo view ('footer');
-      //  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }    
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
+}
+}
+
 
     public function aksitproduk()
 {
@@ -422,58 +430,57 @@ public function produk()
 
 
 
- public function aksieproduk()
+public function aksieproduk()
 {
     $model = new M_kedaikopi();
-
-    $id_user = session()->get('id'); // Ambil ID user dari session
-    $activity = 'Mengubah detail produk'; // Deskripsi aktivitas
-    $this->addLog($id_user, $activity);
-
+    
+    $a = $this->request->getPost('nama');
+    $b = $this->request->getPost('deskripsi');
+    $c = $this->request->getPost('harga');
+    $d = $this->request->getPost('stok');
+    $e = $this->request->getPost('kategori');
     $id = $this->request->getPost('id');
 
-    // Ambil data lama dari produk
-    $produkLama = $model->getProductById($id);
+    // Cek apakah ada data dengan id_produk yang sama di produk_backup
+    $backupWhere = ['id_produk' => $id];
+    $existingBackup = $model->getWhere('produk_backup', $backupWhere);
 
-    if ($produkLama) {
-        // Siapkan data lama
-        $dataLama = array(
-            'old_nama_produk' => $produkLama->nama_produk,
-            'old_foto' => $produkLama->foto,
-            'old_harga' => $produkLama->harga,
-            'old_deskripsi' => $produkLama->deskripsi,
-            'old_stok' => $produkLama->stok,
-            'old_id_kategori' => $produkLama->id_kategori,
-        );
-
-        // Memeriksa apakah ada file foto baru
-        $uploadedFile = $this->request->getFile('foto');
-        if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
-            $foto = $uploadedFile->getName();
-            // Menambahkan nama foto ke data yang akan di-update
-            $dataLama['old_foto'] = $foto;
-            // Upload file foto baru
-            $model->upload($uploadedFile);
-        }
-
-        // Menyiapkan data yang akan di-update
-        $isi = array(
-            'nama_produk' => $this->request->getPost('nama'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'harga' => $this->request->getPost('harga'),
-            'stok' => $this->request->getPost('stok'),
-            'id_kategori' => $this->request->getPost('kategori'),
-            'updated_at' => date('Y-m-d H:i:s'), // Waktu saat produk diperbarui
-            'updated_by' => $id_user // ID user yang login
-        );
-
-        // Gabungkan data lama dengan data baru
-        $updateData = array_merge($dataLama, $isi);
-
-        // Update data produk di database
-        $where = array('id_produk' => $id);
-        $model->edit('produk', $updateData, $where);
+    if ($existingBackup) {
+        // Hapus data lama di produk_backup jika ada
+        $model->hapus('produk_backup', $backupWhere);
     }
+
+    // Ambil data produk lama berdasarkan id_produk
+    $produkLama = $model->getProductById($id);
+    
+    // Simpan data produk lama ke tabel produk_backup
+    $backupData = (array) $produkLama;  // Ubah objek menjadi array
+    $model->tambah('produk_backup', $backupData);
+
+    // Menyiapkan data yang akan di-update
+    $isi = array(
+        'nama_produk' => $a,
+        'deskripsi' => $b,
+        'harga' => $c,
+        'stok' => $d,
+        'id_kategori' => $e
+    );
+
+    // Memeriksa apakah ada file foto baru
+    $uploadedFile = $this->request->getFile('foto');
+
+    if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
+        $foto = $uploadedFile->getName();
+        // Menambahkan nama foto ke data yang akan di-update
+        $isi['foto'] = $foto;
+
+        // Upload file foto baru
+        $model->upload($uploadedFile);
+    }
+
+    // Update data produk di database
+    $where = array('id_produk' => $id);
+    $model->edit('produk', $isi, $where);
 
     return redirect()->to('home/produk');
 }
@@ -508,9 +515,13 @@ public function hapusproduk($id){
     //pesanan
     public function pesanan()
 {
-   if(session()->get('level')==1 || session()->get('level')==0|| session()->get('level')==3 ){
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('pesanan')) {
     $model = new M_kedaikopi();
-     $id_user = session()->get('id_user'); // Ambil ID user dari session
+     $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman pesanan'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -539,13 +550,14 @@ $where = array(
     echo view('menu', $data);
     echo view('pesanan', $data);
     echo view('footer');
- //  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
- 
-    }
-    }
+} else {
+    // Jika user tidak memiliki hak akses ke 'pemesanan'
+    return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
+}
+} else {
+return redirect()->to('home/login');
+}
+}
 
     // Controller PesananController.php
 
@@ -618,71 +630,19 @@ public function hapuspesanan($kode) {
     // Redirect setelah penghapusan
     return redirect()->to('home/history');
 }
-
-
-
-
-
-
-    //menuproduk
-
-    // public function menuproduk()
-    // {
-    //     if(session()->get('level')==2 || session()->get('level')==0 || session()->get('level')==1){
-    //     $model= new M_kedaikopi();
-    //     // $where= array('kategori.id_kategori'=>$kat);
-    //     // $data['elly'] = $model->tampil('produk','id_produk');
-    //     $data['elly'] = $model->tampil('produk','id_produk');
-    //     $where=array(
-    //       'id_toko'=> 1
-    //     );
-    //     $data['setting'] = $model->getWhere('toko',$where);
-    //     echo view('header');
-    //     echo view ('menu',$data);
-    //     echo view('menuproduk',$data);
-    //      echo view ('footer');
-    // //  }else{
-    //     // return redirect()->to('Home/login');
-    //     } else {
-    //     throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
  
-    // }
-    // }
-
-   
-    // public function keranjang()
-    // {   
-    //    if(session()->get('level')==2 || session()->get('level')==0 || session()->get('level')==1){
-    //     $model= new M_kedaikopi();
-    //     $where=array('user.id_user'=>session()->get('id'));
-        
-       
-    //     // $data['elly'] = $model->tampil('produk','id_produk');
-    //     $data['elly'] = $model->jointigawhere('keranjang','produk', 'user','keranjang.id_produk=produk.id_produk','keranjang.id_produk=produk.id_produk','keranjang.id_keranjang', $where);
-
-    //     $where=array(
-    //       'id_toko'=> 1
-    //     );
-    //     $data['setting'] = $model->getWhere('toko',$where);
-    //     echo view('header');
-    //     echo view ('menu',$data);
-    //     echo view('keranjang',$data);
-    //     echo view ('footer');
-    //     //  }else{
-    //     // return redirect()->to('Home/login');
-    //     } else {
-    //     throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
- 
-    // }
-    // }
 
     public function menukeranjang()
 {
     // Cek hak akses user
-    if (session()->get('level') == 2 || session()->get('level') == 0 || session()->get('level') == 1) {
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('menu')) {
         $model = new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
-        $activity = 'Mengakses halaman Menu dan Keranjang'; // Deskripsi aktivitas
+         $id_user = session()->get('id'); // Ambil ID user dari session
+        $activity = 'Mengakses halaman menu dan keranjang'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
 
@@ -713,17 +673,19 @@ public function hapuspesanan($kode) {
         echo view('header',$data);
         echo view('menu', $data);
         echo view('menukeranjang', $data); // Tampilkan produk
-       
         echo view('footer');
     } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
 }
-
+}
 
    public function hapuskeranjang($id){
       $model = new M_kedaikopi();
-       $id_user = session()->get('id_user'); // Ambil ID user dari session
+       $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Menghapus produk dari keranjang'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -873,9 +835,13 @@ public function aksipesan()
     //history
     public function history()
 {
-   if(session()->get('level')==2 || session()->get('level')==0 || session()->get('level')==1){
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('riwayat_pesanan')) {
     $model = new M_kedaikopi();
-     $id_user = session()->get('id_user'); // Ambil ID user dari session
+     $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman Riwayat Pesanan'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -905,21 +871,26 @@ $where = array(
     echo view('menu', $data);
     echo view('history', $data);
     echo view('footer');
-//  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-
+} else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
+}
 }
 
 //pembayaran
 
 public function pembayaran()
 {
-   if(session()->get('level')==2 || session()->get('level')==0|| session()->get('level')==1 ){
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('pembayaran')) {
     $model = new M_kedaikopi();
-     $id_user = session()->get('id_user'); // Ambil ID user dari session
+     $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman pembayaran'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -949,12 +920,13 @@ $where = array(
     echo view('menu', $data);
     echo view('pembayaran', $data);
     echo view('footer');
-//  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-
-    }
+} else {
+    // Jika user tidak memiliki hak akses ke 'pemesanan'
+    return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
+}
+} else {
+return redirect()->to('home/login');
+}
 }
 
 public function aksibayar() {
@@ -1017,7 +989,7 @@ public function aksibayar() {
 
         return redirect()->to('/home/pembayaran')->with('success', 'Pembayaran berhasil!');
     } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        return redirect()->to('home/login');
     }
 }
 
@@ -1030,38 +1002,49 @@ public function aksibayar() {
 
 //user
 
-    public function datauser()
-    {  
-       if(session()->get('level')==1 || session()->get('level')==0 ){
-        $model= new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+public function datauser()
+{  
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('data_user')) {
+        $model = new M_kedaikopi();
+        $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman manajemen user'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
-        $data['elly'] = $model->tampil('user','id_user');
-        $where=array(
-          'id_toko'=> 1
+        $data['elly'] = $model->tampil('user', 'id_user');
+        $where = array(
+            'id_toko' => 1
         );
-        $data['setting'] = $model->getWhere('toko',$where);
+        $data['setting'] = $model->getWhere('toko', $where);
         $data['currentMenu'] = 'datauser'; // Sesuaikan dengan menu yang aktif
-        echo view('header',$data);
-        echo view ('menu',$data);
-        echo view('datauser',$data);
-        echo view ('footer');
-        //  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }
+        
+        echo view('header', $data);
+        echo view('menu', $data);
+        echo view('datauser', $data);
+        echo view('footer');
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
-    
+} else {
+    return redirect()->to('home/login');
+}
+}
+
 
 
     public function tambahuser()
     {
-       if(session()->get('level')==1 || session()->get('level')==0 ){
+        if (session()->get('id') > 0) {
+            helper('permission'); // Pastikan helper dimuat
+    
+            // Cek apakah user memiliki hak akses untuk 'pemesanan'
+            if (has_permission('data_user')) {
         $model= new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman tambah user'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -1074,12 +1057,14 @@ public function aksibayar() {
         echo view ('menu', $data);
         echo view('tambahuser');
         echo view ('footer');
-      //  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }    
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
+}
+}
     public function aksituser()
 {
     $model = new M_kedaikopi();
@@ -1121,9 +1106,13 @@ public function aksibayar() {
 
     public function edituser($id)
     {
-       if(session()->get('level')==1 || session()->get('level')==0 ){
+        if (session()->get('id') > 0) {
+            helper('permission'); // Pastikan helper dimuat
+    
+            // Cek apakah user memiliki hak akses untuk 'pemesanan'
+            if (has_permission('data_user')) {
             $model = new M_kedaikopi();
-             $id_user = session()->get('id_user'); // Ambil ID user dari session
+             $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman detail user'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -1138,75 +1127,73 @@ public function aksibayar() {
             echo view ('menu',$data);
             echo view ('edituser',$data);
             echo view ('footer');
-       //  }else{
-        // return redirect()->to('Home/login');
         } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            // Jika user tidak memiliki hak akses ke 'pemesanan'
+            return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
         }
-        
+    } else {
+        return redirect()->to('home/login');
+    }
     }
 
-public function aksieuser()
+    public function aksieuser()
 {
     $model = new M_kedaikopi();
-
     $id_user = session()->get('id'); // Ambil ID user dari session
-    $activity = 'Mengubah detail user'; // Deskripsi aktivitas
+    $activity = 'Mengubah informasi user'; // Deskripsi aktivitas
     $this->addLog($id_user, $activity);
 
+    $a = $this->request->getPost('nama');
+    $b = $this->request->getPost('alamat');
+    $c = $this->request->getPost('nohp');
+    $d = $this->request->getPost('level');
     $id = $this->request->getPost('id');
 
-    // Ambil data user lama
-    $userLama = $model->getUserById($id); // Misalkan ini adalah fungsi untuk mendapatkan data user berdasarkan ID
+    // Cek apakah ada data dengan id_user yang sama di user_backup
+    $backupWhere = ['id_user' => $id];
+    $existingBackup = $model->getWhere('user_backup', $backupWhere);
 
-    if ($userLama) {
-        // Siapkan data lama
-        $dataLama = array(
-            'old_nama_user' => $userLama->nama_user,
-            'old_alamat' => $userLama->alamat,
-            'old_nomor_hp' => $userLama->nomor_hp,
-            'old_level' => $userLama->level,
-            'old_foto' => $userLama->foto
-        );
-
-        // Memeriksa apakah ada file foto baru
-        $fotoName = $userLama->foto; // Gunakan foto lama sebagai default
-        $foto = $this->request->getFile('foto');
-        if ($foto && $foto->isValid()) {
-            // Generate a new name for the uploaded file
-            $newName = $foto->getRandomName();
-            // Move the file to the target directory
-            $foto->move(ROOTPATH . 'public/images', $newName);
-            // Set the new file name to be saved in the database
-            $fotoName = $newName;
-        }
-
-        // Menyiapkan data yang akan di-update
-        $isi = array(
-            'nama_user' => $this->request->getPost('nama'),
-            'alamat' => $this->request->getPost('alamat'),
-            'nomor_hp' => $this->request->getPost('nohp'),
-            'level' => $this->request->getPost('level'),
-            'foto' => $fotoName,
-            'updated_at' => date('Y-m-d H:i:s'), // Waktu saat user diperbarui
-            'updated_by' => $id_user // ID user yang login
-        );
-
-        // Gabungkan data lama dengan data baru
-        $updateData = array_merge($dataLama, $isi);
-
-        // Update data user di database
-        $where = array('id_user' => $id);
-        $model->edit('user', $updateData, $where);
+    if ($existingBackup) {
+        // Hapus data lama di user_backup jika ada
+        $model->hapus('user_backup', $backupWhere);
     }
+
+    // Ambil data user lama berdasarkan id_user
+    $userLama = $model->getUserById($id);
+
+    // Simpan data user lama ke tabel user_backup
+    $backupData = (array) $userLama;  // Ubah objek menjadi array
+    $model->tambah('user_backup', $backupData);
+
+    // Mengelola upload foto
+    $fotoName = $this->request->getPost('old_foto'); // Mengambil nama foto lama
+    $foto = $this->request->getFile('foto');
+    if ($foto && $foto->isValid()) {
+        // Generate a new name for the uploaded file
+        $newName = $foto->getRandomName();
+        // Move the file to the target directory
+        $foto->move(ROOTPATH . 'public/images', $newName);
+        // Set the new file name to be saved in the database
+        $fotoName = $newName;
+    }
+
+    // Menyiapkan data yang akan di-update
+    $isi = array(
+        'nama_user' => $a,
+        'alamat' => $b,
+        'nomor_hp' => $c,
+        'level' => $d,
+        'foto' => $fotoName,
+        'updated_at' => date('Y-m-d H:i:s'), // Waktu saat user diupdate
+        'updated_by' => $id_user // ID user yang login
+    );
+
+    $where = array('id_user' => $id);
+    $model->edit('user', $isi, $where);
 
     return redirect()->to('home/datauser');
 }
 
-
-
-   
-    
 
 
 
@@ -1230,90 +1217,18 @@ public function aksieuser()
 
     
 
-
-
-//registrasi
-    // public function registrasi()
-    // {
-        
-    //     echo view('header');
-        
-    //     echo view('registrasi');
-        
-    // }
-
-    // public function aksi_register()
-    // {
-    //     $a = $this->request->getPost('nama');
-    //     $b = $this->request->getPost('alamat');
-    //     $c = $this->request->getPost('nohp');
-    //     $d = md5($this->request->getPost('password'));
-
-        
-
-    //     $isi = array(
-
-    //         'nama_user' => $a,
-    //         'alamat' => $b,
-    //         'nomor_hp' => $c,
-    //         'password' => $d, 
-    //         'level' => 1
-           
-    //     );
-
-    //     $model = new M_kedaikopi();
-    //     $model->tambah('user', $isi);
-           
-    //        $login=array(
-    //       'nomor_hp'=> $c,
-    //       'password'=> $d
-    //     );
-
-    //         $cek = $model->getWhere('user',$login);
-
-    //         if ($cek>0){
-    //        session()->set('id',$cek->id_user);
-    //         session()->set('nama',$cek->nama_user);
-    //         session()->set('level',$cek->id_level); 
-    //         session()->set('level','2'); 
-    //         return redirect()->to('home/');
-    //     }else{
-    //         return redirect()->to('Home/login');
-    //     }
-
-
-    // }
-
-    //laporan
-    // public function laporan()
-    // {
-    // 	if(session()->get('level')==1 || session()->get('level')==0 ){
-    //     $model = new M_kedaikopi();
-    //      $id_user = session()->get('id_user'); // Ambil ID user dari session
-    //     $activity = 'Mengakses halaman laporan'; // Deskripsi aktivitas
-    //     $this->addLog($id_user, $activity);
-        
-    //     $where=array(
-    //       'id_toko'=> 1
-    //     );
-    //     $data['setting'] = $model->getWhere('toko',$where);
-    //     $data['currentMenu'] = 'laporan'; // Sesuaikan dengan menu yang aktif
-    //     echo view('header',$data);
-    //     echo view('menu', $data);
-    //     echo view('laporan');
-    //     echo view('footer');
-    // //  }else{
-    //     // return redirect()->to('Home/login');
-    //     } else {
-    //     throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-    // }
-    // }
+    
+    
 
 public function laporan()
 {
-    if (session()->get('level') == 1 || session()->get('level') == 0) {
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('laporan')) {
         $model = new M_kedaikopi();
-        $id_user = session()->get('id_user');
+        $id_user = session()->get('id');
         $activity = 'Mengakses halaman laporan';
         $this->addLog($id_user, $activity);
 
@@ -1339,8 +1254,12 @@ public function laporan()
         echo view('laporan', $data);
         echo view('footer');
     } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
+}
 }
 
 
@@ -1358,7 +1277,7 @@ public function filter()
         $data['elly'] = $model->carilaporan('pesanan', 'produk', 'pesanan.id_produk = produk.id_produk', $tanggal_awal, $tanggal_akhir, 'tgl_pesanan');
     } else {
         // Ambil semua data jika filter tidak ada
-        $data['elly'] = $model->tampil('pesanan', 'tgl_pesanan');
+        $data['elly'] = $model->joinduawhere('pesanan', 'produk', 'pesanan.id_produk = produk.id_produk', 'tgl_pesanan', ['pesanan.isdelete' => 0]);
     }
 
     // Simpan data filter ke session, bukan flashdata, agar data tetap ada di sesi
@@ -1374,9 +1293,13 @@ public function filter()
 
     public function formnota()
     {
-        if(session()->get('level')==1 || session()->get('level')==0 ){
+        if (session()->get('id') > 0) {
+            helper('permission'); // Pastikan helper dimuat
+
+            // Cek apakah user memiliki hak akses untuk 'pemesanan'
+            if (has_permission('laporan')) {
         $model = new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman laporan nota pembeli'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -1389,20 +1312,21 @@ public function filter()
         echo view('menu', $data);
         echo view('formnota');
         echo view('footer');
-    //  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
-    }
-
+} else {
+    return redirect()->to('home/login');
+}
+}
 
     //laporan
 
    public function word()
 {
     $model = new M_kedaikopi();
-    $id_user = session()->get('id_user');
+    $id_user = session()->get('id');
     $activity = 'Mencetak laporan';
     $this->addLog($id_user, $activity);
 
@@ -1428,7 +1352,7 @@ public function filter()
     $kode_pesanan = $this->request->getPost('kode_pesanan');
 
     $model = new M_kedaikopi();
-     $id_user = session()->get('id_user'); // Ambil ID user dari session
+     $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mencetak laporan nota pembelian'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
     // $dompdf = new dompdf();
@@ -1483,7 +1407,7 @@ public function printnota($kode_pesanan)
     // Load model
     $model = new M_kedaikopi();
 
-     $id_user = session()->get('id_user'); // Ambil ID user dari session
+     $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mencetak nota pembeli'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -1520,7 +1444,7 @@ public function printnota($kode_pesanan)
         $b=$this->request->getPost('akhir');
 
         $model = new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mencetak laporan'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         $dompdf = new dompdf();
@@ -1553,7 +1477,7 @@ public function printnota($kode_pesanan)
     $b = $this->request->getPost('akhir');
 
     $model = new M_kedaikopi();
-     $id_user = session()->get('id_user'); // Ambil ID user dari session
+     $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mencetak laporan'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
    $data['elly'] = session()->get('filter_data') ?? $model->jointigawhere(
@@ -1657,10 +1581,14 @@ public function printnota($kode_pesanan)
 
 public function profile($id)
 {
-        if (session()->get('level')>0){
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('profile')) {
         $model = new M_kedaikopi();
 
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman profile'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -1681,25 +1609,44 @@ public function profile($id)
         echo view ('menu',$data);
         echo view('profile',$data);
         echo view ('footer');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }  
-        
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
+    }
+} else {
+    return redirect()->to('home/login');
+}
 }
 public function aksieprofile() 
 {
     $model = new M_kedaikopi();
-     $id_user = session()->get('id'); // Ambil ID user dari session
-        $activity = 'Mengubah informasi profile'; // Deskripsi aktivitas
-        $this->addLog($id_user, $activity);
+    $id_user = session()->get('id'); // Ambil ID user dari session
+    $activity = 'Mengubah informasi profile'; // Deskripsi aktivitas
+    $this->addLog($id_user, $activity);
 
     $a = $this->request->getPost('nama');
     $b = $this->request->getPost('nohp');
     $c = $this->request->getPost('alamat');
     $id = $this->request->getPost('id');
 
-    $fotoName = $this->request->getPost('old_foto'); // Mengambil nama foto lama
+    // Cek apakah ada data dengan id_user yang sama di user_backup
+    $backupWhere = ['id_user' => $id];
+    $existingBackup = $model->getWhere('user_backup', $backupWhere);
 
+    if ($existingBackup) {
+        // Hapus data lama di user_backup jika ada
+        $model->hapus('user_backup', $backupWhere);
+    }
+
+    // Ambil data user lama berdasarkan id_user
+    $userLama = $model->getUserById($id);
+
+    // Simpan data user lama ke tabel user_backup
+    $backupData = (array) $userLama; // Ubah objek menjadi array
+    $model->tambah('user_backup', $backupData);
+
+    // Mengelola upload foto
+    $fotoName = $this->request->getPost('old_foto'); // Mengambil nama foto lama
     $foto = $this->request->getFile('foto');
     if ($foto && $foto->isValid()) {
         // Generate a new name for the uploaded file
@@ -1710,17 +1657,19 @@ public function aksieprofile()
         $fotoName = $newName;
     }
 
-    $where = array('id_user' => $id);
+    // Menyiapkan data yang akan di-update
     $isi = array(
         'nama_user' => $a,
         'nomor_hp' => $b,
         'alamat' => $c,
         'foto' => $fotoName,
-        'updated_at' => date('Y-m-d H:i:s'), // Waktu saat produk dibuat
+        'updated_at' => date('Y-m-d H:i:s'), // Waktu saat profil diupdate
         'updated_by' => $id_user // ID user yang login
     );
 
+    $where = array('id_user' => $id);
     $model->edit('user', $isi, $where);
+
     return redirect()->to('home/profile/'.$id);
 }
 
@@ -1730,9 +1679,13 @@ public function aksieprofile()
 
 public function changepassword()
 {
-    if (session()->get('level') > 0) {
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('profile')) {
         $model = new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman ubah password'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -1749,8 +1702,12 @@ public function changepassword()
         echo view('changepassword', $data);
         echo view('footer');
     } else {
-        return redirect()->to('home/dashboard');
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
+}
 }
 
 
@@ -1793,12 +1750,16 @@ public function aksi_changepass() {
 
 public function log() 
 {
-    if (session()->get('level') == 1 || session()->get('level') == 0) {
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('log_activity')) {
         $model = new M_kedaikopi();
 
 
         // Menambahkan log aktivitas ketika user mengakses halaman log
-        $id_user = session()->get('id_user'); // Ambil ID user dari session
+        $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman log aktivitas'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -1815,8 +1776,12 @@ public function log()
         echo view('log', $data);
         echo view('footer');
     } else {
-        return redirect()->to('home/login');
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
+}
 }
 
     public function addLog($id_user, $activity)
@@ -1836,10 +1801,14 @@ public function log()
 
 public function reproduk()
     {   
-      if(session()->get('level')==1 || session()->get('level')==0){
+        if (session()->get('id') > 0) {
+            helper('permission'); // Pastikan helper dimuat
+
+            // Cek apakah user memiliki hak akses untuk 'pemesanan'
+            if (has_permission('restore')) {
         // if (session()->get('level')>0){
         $model= new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman restore produk'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -1854,13 +1823,14 @@ public function reproduk()
         echo view ('menu',$data);
         echo view('reproduk',$data);
         echo view ('footer');
-        //  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
- 
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
-    }
+} else {
+    return redirect()->to('home/login');
+}
+}
 
 
 public function aksireproduk($id) {
@@ -1884,9 +1854,13 @@ public function aksireproduk($id) {
 
 public function reuser()
     {  
-       if(session()->get('level')==1 || session()->get('level')==0){
+        if (session()->get('id') > 0) {
+            helper('permission'); // Pastikan helper dimuat
+
+            // Cek apakah user memiliki hak akses untuk 'pemesanan'
+            if (has_permission('restore')) {
         $model= new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
+         $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman restore user'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -1900,12 +1874,14 @@ public function reuser()
         echo view ('menu',$data);
         echo view('reuser',$data);
         echo view ('footer');
-        //  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
     }
+} else {
+    return redirect()->to('home/login');
+}
+}
 public function aksireuser($id) {
     $model = new M_kedaikopi();
      $id_user = session()->get('id'); // Ambil ID user dari session
@@ -1927,9 +1903,13 @@ public function aksireuser($id) {
 
 public function repesanan()
 {
-  if(session()->get('level')==1 || session()->get('level')==0){
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('restore')) {
     $model = new M_kedaikopi();
-     $id_user = session()->get('id_user'); // Ambil ID user dari session
+     $id_user = session()->get('id'); // Ambil ID user dari session
         $activity = 'Mengakses halaman restore pesanan'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
@@ -1959,12 +1939,13 @@ $where = array(
     echo view('menu', $data);
     echo view('repesanan', $data);
     echo view('footer');
-//  }else{
-        // return redirect()->to('Home/login');
-        } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-
-    }
+} else {
+    // Jika user tidak memiliki hak akses ke 'pemesanan'
+    return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
+}
+} else {
+return redirect()->to('home/login');
+}
 }
 
 public function aksirepesanan($kode) {
@@ -1995,24 +1976,20 @@ public function aksirepesanan($kode) {
 
 public function hisproduk()
     {   
-       if(session()->get('level')==1 || session()->get('level')==0 ){
+        if (session()->get('id') > 0) {
+            helper('permission'); // Pastikan helper dimuat
+
+            // Cek apakah user memiliki hak akses untuk 'pemesanan'
+            if (has_permission('produk')) {
         // if (session()->get('level')>0){
         $model= new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
-        $activity = 'Mengakses halaman produk'; // Deskripsi aktivitas
+
+         $id_user = session()->get('id'); // Ambil ID user dari session
+        $activity = 'Mengakses halaman history edit produk'; // Deskripsi aktivitas
         $this->addLog($id_user, $activity);
         
         // $data['elly'] = $model->tampil('produk','id_produk');
-       $data['elly'] = $model->joinbaru('produk', 'kategori', 'produk.id_kategori = kategori.id_kategori', 'produk.id_produk')
-                      ->where('produk.old_nama_produk IS NOT NULL')
-                      ->where('produk.old_foto IS NOT NULL')
-                      ->where('produk.old_harga IS NOT NULL')
-                      ->where('produk.old_deskripsi IS NOT NULL')
-                      ->where('produk.old_stok IS NOT NULL')
-                      ->where('produk.old_foto IS NOT NULL')
-                      ->get()
-                      ->getResult();
-
+        $data['elly'] = $model->join('produk_backup','kategori','produk_backup.id_kategori=kategori.id_kategori','produk_backup.id_produk');
         $where=array(
           'id_toko'=> 1
         );
@@ -2025,80 +2002,100 @@ public function hisproduk()
         //  }else{
         // return redirect()->to('Home/login');
         } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
- 
-    }
-    }
-    public function aksihisproduk()
-{
-    $model = new M_kedaikopi();
-    
-    // Ambil ID produk dari POST data
-    $id = $this->request->getPost('id');
-    
-    // Ambil data produk berdasarkan ID
-    $produkLama = $model->getProductById($id);
-
-    if ($produkLama) {
-        // Menyiapkan data untuk update
-        $dataUpdate = array(
-            'nama_produk' => $produkLama->old_nama_produk,
-            'foto' => $produkLama->old_foto,
-            'harga' => $produkLama->old_harga,
-            'deskripsi' => $produkLama->old_deskripsi,
-            'stok' => $produkLama->old_stok,
-            'id_kategori' => $produkLama->old_id_kategori,
-            'updated_at' => date('Y-m-d H:i:s'), // Waktu saat produk dikembalikan
-            'updated_by' => session()->get('id') // ID user yang login
-        );
-
-        // Update data produk di database
-        $where = array('id_produk' => $id);
-        $model->edit('produk', $dataUpdate, $where);
-
-        // Reset nilai old_* menjadi null
-        $resetData = array(
-            'old_nama_produk' => null,
-            'old_foto' => null,
-            'old_harga' => null,
-            'old_deskripsi' => null,
-            'old_stok' => null,
-            'old_id_kategori' => null
-        );
-
-        // Update data reset di database
-        $model->edit('produk', $resetData, $where);
-    }
-
-    return redirect()->to('home/produk');
-}
-
-
-
-    public function hisuser()
-    {  
-       if(session()->get('level')==1 || session()->get('level')==0 ){
-        $model= new M_kedaikopi();
-         $id_user = session()->get('id_user'); // Ambil ID user dari session
-        $activity = 'Mengakses halaman manajemen user'; // Deskripsi aktivitas
-        $this->addLog($id_user, $activity);
-        
-        $data['elly'] = $model->tampil('user','id_user');
-        $where=array(
-          'id_toko'=> 1
-        );
-        $data['setting'] = $model->getWhere('toko',$where);
-        $data['currentMenu'] = 'hisuser'; // Sesuaikan dengan menu yang aktif
-        echo view('header',$data);
-        echo view ('menu',$data);
-        echo view('hisuser',$data);
-        echo view ('footer');
-        //  }else{
-        // return redirect()->to('Home/login');
+                // Jika user tidak memiliki hak akses ke 'pemesanan'
+                return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
+            }
         } else {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            return redirect()->to('home/login');
         }
     }
+
+    public function aksihisproduk($id)
+{
+    $model = new M_kedaikopi();
+    $id_user = session()->get('id'); // Ambil ID user dari session
+    $activity = 'Merestore produk yang telah diubah'; // Deskripsi aktivitas
+    $this->addLog($id_user, $activity);
+    // Ambil data dari tabel produk_backup berdasarkan id_produk
+    $backupData = $model->getWhere('produk_backup', ['id_produk' => $id]);
+
+    if ($backupData) {
+        // Konversi data backup menjadi array
+        $restoreData = (array) $backupData;
+
+        // Hapus id_produk dari array karena id_produk tidak perlu di-update
+        unset($restoreData['id_produk']);
+
+        // Update data di tabel produk dengan data dari produk_backup
+        $model->edit('produk', $restoreData, ['id_produk' => $id]);
+
+        // Hapus data dari tabel produk_backup setelah di-restore
+        $model->hapus('produk_backup', ['id_produk' => $id]);
+    }
+
+    return redirect()->to('home/hisproduk');
+}
+
+    
+
+
+public function hisuser()
+{  
+    if (session()->get('id') > 0) {
+        helper('permission'); // Pastikan helper dimuat
+
+        // Cek apakah user memiliki hak akses untuk 'pemesanan'
+        if (has_permission('data_user')) {
+        $model = new M_kedaikopi();
+        $id_user = session()->get('id'); // Ambil ID user dari session
+        $activity = 'Mengakses halaman history edit user'; // Deskripsi aktivitas
+        $this->addLog($id_user, $activity);
+        
+        $data['elly'] = $model->tampil('user_backup', 'id_user');
+        $where = array(
+            'id_toko' => 1
+        );
+        $data['setting'] = $model->getWhere('toko', $where);
+        $data['currentMenu'] = 'hisuser'; // Sesuaikan dengan menu yang aktif
+        
+        echo view('header', $data);
+        echo view('menu', $data);
+        echo view('hisuser', $data);
+        echo view('footer');
+    } else {
+        // Jika user tidak memiliki hak akses ke 'pemesanan'
+        return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
+    }
+} else {
+    return redirect()->to('home/login');
+}
+}
+
+public function aksihisuser($id)
+{
+    $model = new M_kedaikopi();
+    $id_user = session()->get('id'); // Ambil ID user dari session
+    $activity = 'Merestore user yang telah diubah'; // Deskripsi aktivitas
+    $this->addLog($id_user, $activity);
+    // Ambil data dari tabel user_backup berdasarkan id_user
+    $backupData = $model->getWhere('user_backup', ['id_user' => $id]);
+
+    if ($backupData) {
+        // Konversi data backup menjadi array
+        $restoreData = (array) $backupData;
+
+        // Hapus id_user dari array karena id_user tidak perlu di-update
+        unset($restoreData['id_user']);
+
+        // Update data di tabel user dengan data dari user_backup
+        $model->edit('user', $restoreData, ['id_user' => $id]);
+
+        // Hapus data dari tabel user_backup setelah di-restore
+        $model->hapus('user_backup', ['id_user' => $id]);
+    }
+
+    return redirect()->to('home/hisuser');
+}
 
     //captcha offline
 
@@ -2138,42 +2135,53 @@ private function isInternetAvailable()
 }
 
 public function level()
-    {
-        if (session()->get('id') > 0) {
-            helper('permission'); // Pastikan helper dimuat
+{
+    if (session()->get('id') > 0) {
+        helper('permission'); // Load the permission helper
 
-            // Cek apakah user memiliki hak akses untuk 'pemesanan'
-            if (has_permission('level')) {
-                $model = new M_kedaikopi();
-                $activity = 'Mengakses halaman manajemen user'; // Deskripsi aktivitas
-        $this->addLog($id_user, $activity);
-        $data['setting'] = $model->getWhere('toko',$where);
-        $data['elly'] = $model->tampil('user','id_user');
-        $where=array(
-          'id_toko'=> 1
-        );
-                helper('permission');
+        // Check if user has permission to access 'level'
+        if (has_permission('level')) {
+            $model = new M_kedaikopi();
+            $id_user = session()->get('id');
+            $activity = 'Mengakses halaman level akses'; // Log activity description
+            $this->addLog($id_user, $activity);
 
-                echo view('header', $data);
-                echo view('menu', $data);
-                echo view('level', $data);
-                echo view('footer');
-            } else {
-                // Jika user tidak memiliki hak akses ke 'pemesanan'
-                return redirect()->to('home/error'); // Halaman error atau halaman lain yang sesuai
-            }
+            // Define the $where array before using it
+            $where = [
+                'id_toko' => 1
+            ];
+            
+            // Retrieve data using the defined $where
+            $data['setting'] = $model->getWhere('toko', $where);
+            $data['elly'] = $model->tampil('user', 'id_user');
+
+            $data['currentMenu'] = 'level'; // Set the active menu
+            echo view('header', $data);
+            echo view('menu', $data);
+            echo view('level', $data);
+            echo view('footer');
         } else {
-            return redirect()->to('home/login');
+            // Redirect to error page if user lacks permission
+            return redirect()->to('home/error');
         }
+    } else {
+        // Redirect to login page if user is not logged in
+        return redirect()->to('home/login');
     }
+}
+
     public function hak_akses($level)
     {
         if (session()->get('id') > 0) {
           
             $model = new M_kedaikopi();
+            $id_user = session()->get('id');
             $activity = 'Mengakses halaman hak akses'; // Deskripsi aktivitas
     $this->addLog($id_user, $activity);
-    $data['setting'] = $model->getWhere('toko',$where);
+    $where=array(
+        'id_toko'=> 1
+      );
+      $data2['setting'] = $model->getWhere('toko',$where);
 
                 $permissionModel = new LevelPermissionModel();
                 $permissions = $permissionModel->getPermissionsByLevel($level);
@@ -2183,9 +2191,9 @@ public function level()
                     'permissions' => $permissions,
                 ];
                 helper('permission');
-
-                echo view('header', $data);
-                echo view('menu', $data);
+                $data2['currentMenu'] = 'akses'; // Sesuaikan dengan menu yang aktif
+                echo view('header', $data2);
+                echo view('menu', $data2);
                 echo view('hak_akses', $data);
                 echo view('footer');
             

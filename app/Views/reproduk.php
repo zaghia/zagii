@@ -103,7 +103,7 @@
                                 <td><?=$gou->nama_kategori?></td>
                                 <td>
                                     <a href="<?= base_url('home/aksireproduk/'.$gou->id_produk)?>">
-                                        <button class="btn btn-info btn-sm round">Restore</button>
+                                        <button class="btn btn-info btn-sm ">Restore</button>
                                     </a>
                                 </td>
                             </tr>

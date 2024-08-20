@@ -58,12 +58,10 @@
     
     <td>
     <a href="<?= base_url('home/aksireuser/'.$gou->id_user)?>">
-    <button class="btn btn-danger btn-sm round">Restore</button>
+    <button class="btn btn-danger btn-sm ">Restore</button>
     </a>
    
-    <!-- <a href="<?= base_url('home/hapususer/'.$gou->id_user)?>">
-    <button class="btn btn-danger btn-sm round">Hapus</button>
-    </a> -->
+    
     </td>
     </tr>
     <?php }} ?>

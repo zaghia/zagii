@@ -18,8 +18,11 @@
                 <div class="card-header">
                     <h4 class="card-title" align="center">Manajemen User</h4>
                <a href="<?= base_url('home/tambahuser') ?>">
-                <button class="btn btn-success round">Tambah</button>
+                <button class="btn btn-success ">Tambah</button>
                 </a>
+                <a href="<?= base_url('home/hisuser') ?>">
+                        <button class="btn btn-danger ">Restore</button>
+                    </a>
             </div>
                 <div class="card-content">
                     
@@ -60,7 +63,7 @@
     
     <td>
     <a href="<?= base_url('home/edituser/'.$gou->id_user)?>">
-    <button class="btn btn-danger btn-sm round">Detail</button>
+    <button class="btn btn-danger btn-sm ">Detail</button>
     </a>
    
     <!-- <a href="<?= base_url('home/hapususer/'.$gou->id_user)?>">

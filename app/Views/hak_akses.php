@@ -34,7 +34,7 @@
                 <label>
                     <input type="checkbox" name="permissions[]" value="data_user"
                         <?= in_array('data_user', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
-                   Data User
+                   Manajemen User
                 </label>
                 <br>
                 <label>
@@ -56,17 +56,17 @@
                 </label>
                 <br>
                 <label>
-                    <input type="checkbox" name="permissions[]" value="laporan_pesanan"
-                        <?= in_array('laporan_pesanan', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
-                   Laporan Pesanan
+                    <input type="checkbox" name="permissions[]" value="laporan"
+                        <?= in_array('laporan', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
+                   Laporan
                 </label>
+              
                 <br>
                 <label>
-                    <input type="checkbox" name="permissions[]" value="nota_pembeli"
-                        <?= in_array('nota_pembeli', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
-                    Nota Pembeli
+                    <input type="checkbox" name="permissions[]" value="level"
+                        <?= in_array('level', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
+                    Level
                 </label>
-                <br>
                 <br>
                 <label>
                     <input type="checkbox" name="permissions[]" value="log_activity"
@@ -75,35 +75,30 @@
                 </label>
                 <br>
                 <label>
-                    <input type="checkbox" name="permissions[]" value="restore_produk"
-                        <?= in_array('restore_produk', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
-                    Restore Produk
+                    <input type="checkbox" name="permissions[]" value="restore"
+                        <?= in_array('restore', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
+                    Restore
+                </label>
+               
+                <!-- <br>
+                <label>
+                    <input type="checkbox" name="permissions[]" value="history"
+                        <?= in_array('history', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
+                    History Edit 
+                </label> -->
+                <br>
+                <label>
+                    <input type="checkbox" name="permissions[]" value="setting"
+                        <?= in_array('setting', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
+                   Setting 
                 </label>
                 <br>
                 <label>
-                    <input type="checkbox" name="permissions[]" value="restore_user"
-                        <?= in_array('restore_user', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
-                   Restore User
+                    <input type="checkbox" name="permissions[]" value="profile"
+                        <?= in_array('profile', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
+                    Profile
                 </label>
-                <br>
-                <label>
-                    <input type="checkbox" name="permissions[]" value="restore_pesanan"
-                        <?= in_array('restore_pesanan', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
-                    Restore Pesanan
-                </label>
-                <br>
-                <label>
-                    <input type="checkbox" name="permissions[]" value="history_produk"
-                        <?= in_array('history_produk', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
-                    History Produk
-                </label>
-                <br>
-                <br>
-                <label>
-                    <input type="checkbox" name="permissions[]" value="history_user"
-                        <?= in_array('history_user', array_column($permissions, 'menu_name')) ? 'checked' : '' ?>>
-                    History User
-                </label>
+               
                 <br>
                 <button type="submit" class="btn btn-primary">Simpan Hak Akses</button>
             </form>

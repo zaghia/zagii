@@ -98,6 +98,7 @@ if (!empty($elly)): ?>
         <?php } ?>
         <div class="container">
             <div class="header">
+            <img src="<?php echo base_url('images/'.$setting->logo) ?>" style="width: 120px; height: auto;">
                 <div class="nama-toko"><?php echo htmlspecialchars($setting->nama_toko); ?></div>
                 <p>Terima kasih atas pembelian Anda!</p>
                 <div class="transaction-info">

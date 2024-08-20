@@ -24,9 +24,9 @@
                                 <div class="form-group position-relative has-icon-left">
                                     <div class="clearfix">
                                         <label for="password">Password</label>
-                                        <a href="auth-forgot-password.html" class='float-end'>
+                                        <!-- <a href="auth-forgot-password.html" class='float-end'>
                                             <small>Forgot password?</small>
-                                        </a>
+                                        </a> -->
                                     </div>
                                     <div class="position-relative">
                                         <input type="password" class="form-control" id="password" name="password" required>
@@ -47,7 +47,7 @@
                                 
                                 <br/>
                                 <div class="clearfix">
-                                    <button class="btn btn-primary float-end">Submit</button>
+                                    <button class="btn btn-primary float-end">Login</button>
                                 </div>
                             </form>
                         </div>

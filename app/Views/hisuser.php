@@ -28,6 +28,9 @@
                         <tr>
                 <th>No</th>      
                 <th>Nama</th>
+                <th>Foto</th>
+                <th>Alamat</th>
+                <th>Nomor Telepon</th>
                 <th>Level</th>
                 <th>Aksi</th>
 
@@ -43,8 +46,11 @@
         <tr>
     <td><?= $no++ ?></td>
     <td><?=$gou->nama_user?></td> 
-    <!-- <td><?=$gou->alamat?></td>
-    <td><?=$gou->nomor_hp?></td> -->
+    <td>
+                                    <img src="<?php echo base_url('images/'.$gou->foto)?>" style="width: 50px; height: auto;" onclick="openPopup('<?php echo base_url('images/'.$gou->foto)?>')">
+                                </td>
+    <td><?=$gou->alamat?></td>
+    <td><?=$gou->nomor_hp?></td>
     <td><?php 
         if($gou->level==1){
           echo "Admin";
@@ -57,13 +63,11 @@
     
     
     <td>
-    <a href="<?= base_url('home/edituser/'.$gou->id_user)?>">
-    <button class="btn btn-danger btn-sm round">Detail</button>
+    <a href="<?= base_url('home/aksihisuser/'.$gou->id_user)?>">
+    <button class="btn btn-danger btn-sm ">Restore</button>
     </a>
    
-    <!-- <a href="<?= base_url('home/hapususer/'.$gou->id_user)?>">
-    <button class="btn btn-danger btn-sm round">Hapus</button>
-    </a> -->
+   
     </td>
     </tr>
     <?php }} ?>

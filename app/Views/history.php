@@ -42,8 +42,8 @@
                                      <td>' . $gou->kode_pesanan . '</td>
                                      <td>' . $gou->status . '</td>
                                     <td>
-                                        <button class="btn btn-info round detail-btn">Detail</button>
-                                         <button class="btn btn-danger round delete-btn" data-kode-pesanan="' . $gou->kode_pesanan . '">Hapus</button>
+                                        <button class="btn btn-info  detail-btn">Detail</button>
+                                         <button class="btn btn-danger  delete-btn" data-kode-pesanan="' . $gou->kode_pesanan . '">Hapus</button>
     </td>
                                     </td>
                                 </tr>';
@@ -87,13 +87,7 @@
 
                                             </tr>
                                             <!-- Tambahkan tombol di bawah kolom Harga Total -->
-                                            <!-- <tr>
-                                                <td colspan="5" class="text-right">
-                                                    <a href="<?= base_url('home/printnota/'.$gou->kode_pesanan)?>">
-                                                        <button class="btn btn-warning round">Nota</button>
-                                                    </a>
-                                                </td>
-                                            </tr> -->
+                                           
                                         </tbody>
                                     </table>
                                 </td>

@@ -72,7 +72,7 @@ $total_pesanan_take_away = count($kode_pesanan_take_away);
                                             </select>
                                         </td>
                                         <td>
-                                            <button class="btn btn-info round detail-btn">Detail</button>
+                                            <button class="btn btn-info  detail-btn">Detail</button>
                                         </td>
 
                                     </tr>';

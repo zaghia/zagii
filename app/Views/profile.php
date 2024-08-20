@@ -61,8 +61,8 @@
         <input name="alamat" type="text" class="form-control" id="alamat" value="<?= $user->alamat?>">
         <input name="id" type="hidden" class="form-control" id="id" value="<?= $user->id_user?>">
     </div>
-    <button class="btn btn-warning btn-sm round">Save Edit</button>
-     <a href="<?= base_url('home/changepassword/'.$user->id_user)?>" class="btn btn-secondary btn-sm round">Change Password</a>
+    <button class="btn btn-warning btn-sm ">Save Edit</button>
+     <a href="<?= base_url('home/changepassword/'.$user->id_user)?>" class="btn btn-secondary btn-sm ">Change Password</a>
 </div>
 </form>
 </body>

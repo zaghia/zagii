@@ -43,8 +43,8 @@
                                      <td>' . $gou->kode_pesanan . '</td>
                                      <td>' . $gou->status . '</td>
                                     <td>
-                                        <button class="btn btn-info round detail-btn">Detail</button>
-                                         <button class="btn btn-danger round delete-btn" data-kode-pesanan="' . $gou->kode_pesanan . '">Restore</button>
+                                        <button class="btn btn-info  detail-btn">Detail</button>
+                                         <button class="btn btn-danger  delete-btn" data-kode-pesanan="' . $gou->kode_pesanan . '">Restore</button>
     </td>
                                     </td>
                                 </tr>';

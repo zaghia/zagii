@@ -67,7 +67,10 @@
               
                     <h4 class="card-title" align="center">Daftar Produk</h4>
                     <a href="<?= base_url('home/tambahproduk') ?>">
-                        <button class="btn btn-success round">Tambah</button>
+                        <button class="btn btn-success ">Tambah</button>
+                    </a>
+                    <a href="<?= base_url('home/hisproduk') ?>">
+                        <button class="btn btn-danger ">Restore</button>
                     </a>
                 </div>
                 <div class="card-content">
@@ -89,7 +92,7 @@
                         </thead>
                        <tbody>
     <?php
-    $no = 1;
+    $no = 1; 
     foreach($elly as $gou) {
         // Periksa apakah isdelete == 0
         if ($gou->isdelete == 0) {
@@ -106,7 +109,7 @@
                                 <td><?=$gou->nama_kategori?></td>
                                 <td>
                                     <a href="<?= base_url('home/editproduk/'.$gou->id_produk)?>">
-                                        <button class="btn btn-info btn-sm round">Detail</button>
+                                        <button class="btn btn-info btn-sm ">Detail</button>
                                     </a>
                                 </td>
                             </tr>

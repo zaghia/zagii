@@ -55,10 +55,10 @@
                                     <td>' . $gou->kode_pesanan . '</td>
                                     <td>' . $gou->statusbyr . '</td>
                                     <td>
-                                        <button class="btn btn-info round detail-btn" data-kode-pesanan="' . $gou->kode_pesanan . '">Detail</button>
+                                        <button class="btn btn-info  detail-btn" data-kode-pesanan="' . $gou->kode_pesanan . '">Detail</button>
                                     
                                     
-                                        <a href="' . base_url('home/printnota/'.$gou->kode_pesanan) . '" class="btn btn-primary round">Nota</a>
+                                        <a href="' . base_url('home/printnota/'.$gou->kode_pesanan) . '" class="btn btn-primary ">Nota</a>
                                     </td>
 
                                 </tr>';
@@ -119,8 +119,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="close" type="button" class="btn btn-secondary round" data-dismiss="modal">Close</button>
-                <button id="bayarBtn" class="btn btn-success round">Bayar</button>
+                <button id="close" type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                <button id="bayarBtn" class="btn btn-success ">Bayar</button>
             </div>
         </div>
     </div>

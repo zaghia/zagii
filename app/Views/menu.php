@@ -3,7 +3,8 @@
         <div id="sidebar" class='active'>
             <div class="sidebar-wrapper active">
    <div class="sidebar-header">
-    <img src="<?php echo base_url('images/'.$setting->logo) ?>" style="width: 120px; height: auto;">
+   <img src="<?php echo base_url('images/'.$setting->logo) ?>" style="width: 120px; height: auto; display: block; margin: 0 auto;">
+
     <div style="font-size: 20px; color: #333;"><?php echo $setting->nama_toko ?></div>
 </div>
     <div class="sidebar-menu">
@@ -12,7 +13,7 @@
                 
                 <li class='sidebar-title'>Main Menu</li>
                  
-            
+                <?php if (has_permission('dashboard')):?>
                 <li class="sidebar-item <?= ($currentMenu == 'home') ? 'active' : '' ?>">
 
                    <a href="<?= base_url("home")?>" class='sidebar-link'>
@@ -20,10 +21,11 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+                <?php endif;?>
                 
                 <?php if (has_permission('produk')):?>
 
-                 <li class="sidebar-item <?= ($currentMenu == 'produk' || $currentMenu == 'tambahproduk'|| $currentMenu == 'editproduk') ? 'active' : '' ?>">
+                 <li class="sidebar-item <?= ($currentMenu == 'produk' || $currentMenu == 'tambahproduk'|| $currentMenu == 'editproduk'|| $currentMenu == 'hisproduk') ? 'active' : '' ?>">
 
                     <a href="<?= base_url("home/produk")?>" class='sidebar-link'>
                         <i data-feather="triangle" width="20"></i> 
@@ -35,10 +37,7 @@
           
                
 
-                <?php
-if(session()->get('level')==3|| session()->get('level')==1)
-{
-?>
+                   <?php if (has_permission('pesanan')):?>
 
                 <li class="sidebar-item <?= ($currentMenu == 'pesanan') ? 'active' : '' ?>">
 
@@ -47,56 +46,29 @@ if(session()->get('level')==3|| session()->get('level')==1)
                         <span>Pesanan</span>
                     </a>
 
-                    <?php
-    }else{
-
-    }?>  
+                    <?php endif;?>
     
                     
                 </li>
 
-<?php
-if(session()->get('level')==1)
-{
-?>
-                <li class="sidebar-item has-sub <?= ($currentMenu == 'datauser'|| $currentMenu == 'tambahuser'|| $currentMenu == 'edituser') ? 'active' : '' ?>">
+                <?php if (has_permission('data_user')):?>
+                <li class="sidebar-item  <?= ($currentMenu == 'datauser'|| $currentMenu == 'tambahuser'|| $currentMenu == 'edituser'|| $currentMenu == 'hisuser') ? 'active' : '' ?>">
 
-                    <a href="#" class='sidebar-link'>
+                    <a href="<?= base_url("home/datauser")?>" class='sidebar-link'>
                         <i data-feather="file-plus" width="20"></i> 
                         <span>Manajemen User</span>
                     </a>
 
                     
-                    <ul class="submenu ">
-                        
-                       
-                       <li class="<?= ($currentMenu == 'datauser') ? 'active' : '' ?>">
-                            <a href="<?= base_url("home/datauser")?>">Data User</a>
-                        </li>
-                        
-                        
-                    </ul>
-                    
+                
                 </li>
 
 
                 
-                <?php
-    }else{
-
-    }?> 
+                <?php endif;?>
             
 
-            <?php
-if(session()->get('level')==2|| session()->get('level')==1)
-{
-?>
-                
-               
-
-
-                
-            
+                <?php if (has_permission('menu')):?>
                 
                  <li class="sidebar-item <?= ($currentMenu == 'menukeranjang') ? 'active' : '' ?>">
 
@@ -107,9 +79,9 @@ if(session()->get('level')==2|| session()->get('level')==1)
 
                     
                 </li>
-                
+                <?php endif;?>
             
-                
+                <?php if (has_permission('riwayat_pesanan')):?>
                  <li class="sidebar-item <?= ($currentMenu == 'history') ? 'active' : '' ?>">
 
                     <a href="<?= base_url("home/history")?>" class='sidebar-link'>
@@ -119,6 +91,9 @@ if(session()->get('level')==2|| session()->get('level')==1)
 
                     
                 </li>
+                <?php endif;?>
+
+                <?php if (has_permission('pembayaran')):?>
 
                 <li class="sidebar-item <?= ($currentMenu == 'pembayaran') ? 'active' : '' ?>">
 
@@ -129,16 +104,10 @@ if(session()->get('level')==2|| session()->get('level')==1)
 
                     
                 </li>
+                <?php endif;?>
+   
 
-                <?php
-    }else{
-
-    }?> 
-
-                 <?php
-if(session()->get('level')==1)
-{
-?>
+                <?php if (has_permission('laporan')):?>
                 <li class="sidebar-item has-sub <?= ($currentMenu == 'laporan' || $currentMenu == 'nota') ? 'active' : '' ?>">
 
                     <a href="#" class='sidebar-link'>
@@ -147,15 +116,18 @@ if(session()->get('level')==1)
                     </a>
 
                     <ul class="submenu ">
-                        
+                   
+
                         <li class="<?= ($currentMenu == 'laporan') ? 'active' : '' ?>">
                             <a href="<?= base_url("home/laporan")?>">Laporan Pesanan</a>
                         </li>
-                        
+                       
+
+                       
                          <li class="<?= ($currentMenu == 'nota') ? 'active' : '' ?>">
                             <a href="<?= base_url("home/formnota")?>">Nota Pembeli</a>
                         </li>
-                        
+                      
                         
                     </ul>
 
@@ -163,19 +135,25 @@ if(session()->get('level')==1)
                 </li>
                 
             
-            <?php
-    }else{
+                <?php endif;?>
 
-    }?> 
-
- <?php
-if(session()->get('level')==1)
-{
-?>
+ 
     <li class='sidebar-title'>Pages</li>
-                
-           
-                
+     
+    
+    <?php if (has_permission('level')):?>
+    <li class="sidebar-item <?= ($currentMenu == 'level' || $currentMenu == 'akses') ? 'active' : '' ?>">
+   
+<a href="<?= base_url("home/level")?>" class='sidebar-link'>
+    <i data-feather="archive" width="20"></i> 
+    <span>Level</span>
+</a>
+
+</li>
+<?php endif;?>
+
+
+<?php if (has_permission('log_activity')):?>
                  <li class="sidebar-item <?= ($currentMenu == 'log' ) ? 'active' : '' ?>">
 
                     <a href="<?= base_url("home/log")?>" class='sidebar-link'>
@@ -186,6 +164,8 @@ if(session()->get('level')==1)
                     
                 </li>
 
+                <?php endif;?>
+                <?php if (has_permission('restore')):?>
                  <li class="sidebar-item has-sub <?= ($currentMenu == 'reproduk' || $currentMenu == 'reuser' || $currentMenu == 'repesanan' || $currentMenu == 'rekeranjang') ? 'active' : '' ?>">
 
                     <a href="#" class='sidebar-link'>
@@ -215,11 +195,13 @@ if(session()->get('level')==1)
 
                     
                 </li>
+                <?php endif;?>
 
+                <!-- <?php if (has_permission('history')):?>
                   <li class="sidebar-item has-sub <?= ($currentMenu == 'hisproduk' || $currentMenu == 'hisuser' ) ? 'active' : '' ?>">
 
                     <a href="#" class='sidebar-link'>
-                        <i data-feather="briefcase" width="20"></i> 
+                        <i data-feather="refresh-ccw" width="20"></i> 
                         <span>History Edit</span>
                     </a>
 
@@ -239,14 +221,12 @@ if(session()->get('level')==1)
 
                     
                 </li>
+                <?php endif;?> -->
                 
                
                
 
-   <?php
-    }else{
-
-    }?>   
+   
             
                 
               
@@ -289,10 +269,7 @@ if(session()->get('level')==1)
                             </div>
                         </li>
                        
-<?php
-if(session()->get('level')==1)
-{
-?>
+                        <?php if (has_permission('setting')):?>
                          <li class="dropdown nav-icon me-2">
 
                     <a href="<?= base_url("home/logonama")?>" >
@@ -302,10 +279,7 @@ if(session()->get('level')==1)
 
                     
                 </li>
-                <?php
-    }else{
-
-    }?> 
+                <?php endif;?>
 
                         <li class="dropdown nav-icon me-2">
                             <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
@@ -320,6 +294,8 @@ if(session()->get('level')==1)
                                 <a class="dropdown-item" href="<?= base_url("home/logout")?>"><i data-feather="log-out"></i> Logout</a>
                             </div>
                         </li>
+
+                        <?php if (has_permission('profile')):?>
                         <li class="dropdown">
                             <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                                 
@@ -332,6 +308,7 @@ if(session()->get('level')==1)
                                 <a class="dropdown-item" href="<?= base_url("home/logout")?>"><i data-feather="log-out"></i> Logout</a>
                             </div>
                         </li>
+                        <?php endif;?>
                     </ul>
                 </div>
             </nav>
